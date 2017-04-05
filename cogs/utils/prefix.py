@@ -1,4 +1,6 @@
-prefixes = ["!.o", "o.!", "!o.", "o!"]
+import BotIDs
+
+prefixes = BotIDs.prefixes
 
 def Prefix(quote = None):
     if not quote:
