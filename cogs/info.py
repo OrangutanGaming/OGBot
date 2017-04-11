@@ -7,8 +7,9 @@ class Info():
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=["uinfo"])
+    @commands.command(aliases=["uinfo"], no_pm=True)
     async def userinfo(self, ctx, member: discord.Member = None):
+        """Shows the info on a user."""
         if not member:
             member = ctx.message.author
     
@@ -24,7 +25,7 @@ class Info():
     
         roleString = ""
         for role in member.roles:
-            if role.name == '@everyone':
+            if role.name == "@everyone":
                 continue
             roleString += role.name + ", "
         roleString = roleString[:-2]
@@ -39,6 +40,7 @@ class Info():
     
     @commands.command()
     async def info(self, ctx):
+        """Shows the bot's info."""
         server=ctx.message.guild
         membObj=server.me
         embed = discord.Embed(title="Information on {}".format(self.bot.user.name),
@@ -70,8 +72,9 @@ class Info():
     
         await ctx.send(embed=embed)
     
-    @commands.command(aliases=["sinfo"])
+    @commands.command(aliases=["sinfo"], no_pm=True)
     async def serverinfo(self, ctx):
+        """Shows the current server's info."""
         server = ctx.message.guild
 
         embed = discord.Embed(title="Server Info for {}".format(server.name), colour=0xffa500)
@@ -107,6 +110,7 @@ class Info():
         embed.add_field(name="Text Channel Count", value=str(len(server.text_channels)))
         embed.add_field(name="Voice Channel Count", value=str(len(server.voice_channels)))
         embed.add_field(name="Total Channel Count", value=str(len(server.channels)))
+        embed.add_field(name="Default Channel", value=server.default_channel.name)
         if server.icon_url:
             embed.set_image(url=server.icon_url)
             embed.add_field(name="Avatar URL", value=server.icon_url)

@@ -42,14 +42,14 @@ class DataIO():
             return False
 
     def _read_json(self, filename):
-        with open(filename, encoding='utf-8', mode="r") as f:
+        with open(filename, encoding="utf-8", mode="r") as f:
             data = json.load(f)
         return data
 
     def _save_json(self, filename, data):
-        with open(filename, encoding='utf-8', mode="w") as f:
+        with open(filename, encoding="utf-8", mode="w") as f:
             json.dump(data, f, indent=4,sort_keys=True,
-                separators=(',',' : '))
+                separators=(","," : "))
         return data
 
     def _legacy_fileio(self, filename, IO, data=None):
@@ -65,7 +65,7 @@ class DataIO():
                 " parameters")
 
 def get_value(filename, key):
-    with open(filename, encoding='utf-8', mode="r") as f:
+    with open(filename, encoding="utf-8", mode="r") as f:
         data = json.load(f)
     return data[key]
 

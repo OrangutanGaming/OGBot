@@ -4,6 +4,8 @@
   "ownerID": "",
   "prefix": [""],
   "bots_discord_pw": "",
+  "imgurID": "",
+  "imgurSecret": "",
   "_modrolename": "",
   "_adminrolename": ""
 }

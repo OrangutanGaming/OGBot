@@ -5,7 +5,7 @@ class Edit():
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(hidden=True, no_pm=True)
     async def edit(self, ctx, id, *, new: str):
         if ctx.guild.id == 166488311458824193 or ctx.guild.id == 291171882512678912:
             msg = await ctx.channel.get_message(id)
@@ -16,7 +16,7 @@ class Edit():
             else:
                 try: await ctx.message.delete()
                 except discord.Forbidden: return
-                await ctx.send("You can't give the ID of a message sent by another user!")
+                await ctx.send(self.bot.blank + "You can't give the ID of a message sent by another user!")
 
 
 

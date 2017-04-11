@@ -32,31 +32,32 @@ class Clears():
     #     except discord.Forbidden as error:
     #         await self.bot.say("{} does not have permissions".format(self.bot.user.name), delete_after=3)
 
-    @commands.command(aliases=["bclear"], enabled=False)
+    @commands.command(aliases=["bclear"], no_pm=True, enabled=False, hidden=True)
     async def botclear(self, ctx, amount=100):
 
         def check_is_me(msg):
-            return msg.author == self.bot.user
+            return msg.author.id == self.bot.user.id
 
         if ctx.message.channel.permissions_for(ctx.message.author).manage_messages:
 
             try:
-                deleted = await ctx.channel.purge(check=check_is_me(), limit=amount)
+                deleted = await ctx.channel.purge(check=check_is_me, limit=amount)
                 count = len(deleted)
                 if count == 1:
-                    tmp = await ctx.send("Deleted {} message".format(count))
+                    tmp = await ctx.send(self.bot.blank + "Deleted {} message".format(count))
                 else:
-                    tmp = await ctx.send("Deleted {} messages".format(count))
+                    tmp = await ctx.send(self.bot.blank + "Deleted {} messages".format(count))
                 await asyncio.sleep(3)
                 await ctx.channel.delete_messages([tmp, ctx.message])
             except discord.Forbidden as error:
-                await ctx.send("{} does not have permissions".format(self.bot.user.name))
+                await ctx.send(self.bot.blank + "{} does not have permissions".format(self.bot.user.name))
 
         else:
-            await ctx.send("You must have the `Manage Messages` permission in order to run that command")
+            await ctx.send(self.bot.blank + "You must have the `Manage Messages` permission in order to run that command")
 
-    @commands.command(aliases=["del", "delete", "wipe"])
+    @commands.command(aliases=["del", "delete", "wipe"], no_pm=True)
     async def clear(self, ctx, amount=100, channel: discord.TextChannel = None, user: discord.User = None):
+        """Deletes an amount of messages given in the channel given."""
 
         if ctx.message.channel.permissions_for(ctx.message.author).manage_messages:
 
@@ -85,25 +86,25 @@ class Clears():
                 #         else:
                 #             continue
                 # else:
-                #     await ctx.send("Those messages are too old")
+                #     await ctx.send(self.bot.blank + "Those messages are too old")
                 #     return
 
-                deleted = await ctx.message.channel.purge(limit=amount, before=ctx.message)
+                deleted = await channel.purge(limit=amount, before=ctx.message)
                 count = len(deleted)
 
                 if count == 1:
-                    tmp = await ctx.send("Deleted {} message".format(count))
+                    tmp = await ctx.send(self.bot.blank + "Deleted {} message".format(count))
                 else:
-                    tmp = await ctx.send("Deleted {} messages".format(count))
+                    tmp = await ctx.send(self.bot.blank + "Deleted {} messages".format(count))
                 await asyncio.sleep(3)
                 await ctx.channel.delete_messages([tmp, ctx.message])
 
 
             except discord.Forbidden as error:
-                await ctx.send("{} does not have permissions".format(self.bot.user.name))
+                await ctx.send(self.bot.blank + "{} does not have permissions".format(self.bot.user.name))
 
         else:
-            await ctx.send("You must have the `Manage Messages` permission in order to run that command")
+            await ctx.send(self.bot.blank + "You must have the `Manage Messages` permission in order to run that command")
 
 def setup(bot):
     bot.add_cog(Clears(bot))

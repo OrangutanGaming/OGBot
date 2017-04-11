@@ -4,7 +4,7 @@ prefixes = BotIDs.prefixes
 
 def Prefix(quote = None):
     if not quote:
-        quote = '`'
+        quote = "`"
     pPrefix = ""
     for prefix in prefixes:
         pPrefix += ("{}".format(quote)+prefix+"{}".format(quote)+", ")

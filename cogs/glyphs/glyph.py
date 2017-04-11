@@ -20,7 +20,7 @@ class Glyph():
         if not ctx.guild.id == 130805968681304064:
             return
         if not platform:
-            tmp = await ctx.send("State your platform: `PC`, `XBox` or `PS4`")
+            tmp = await ctx.send(self.bot.blank + "State your platform: `PC`, `XBox` or `PS4`")
             return
 
         if platform.lower() == "pc":
@@ -30,7 +30,7 @@ class Glyph():
         elif platform.lower() == "ps4":
             platform = "PS4"
         else:
-            tmp = await ctx.send("State your platform: `PC`, `XBox` or `PS4`")
+            tmp = await ctx.send(self.bot.blank + "State your platform: `PC`, `XBox` or `PS4`")
             return
 
         c.execute("SELECT code FROM codes WHERE id IS NULL AND platform={}".format(platform))
