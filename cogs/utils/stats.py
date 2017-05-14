@@ -7,7 +7,7 @@ log = logging.getLogger()
 
 DISCORD_BOTS_API = "https://bots.discord.pw/api"
 
-if BotIDs.discord_pw:
+if BotIDs.discord_pw_status:
 
     class Stats:
         # Cog for updating bots.discord.pw bot information.

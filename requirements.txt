@@ -1,0 +1,5 @@
+inflect
+rethinkdb
+https://github.com/cburgmer/upsidedown.git
+imgurpython
+git+https://github.com/Rapptz/discord.py@rewrite

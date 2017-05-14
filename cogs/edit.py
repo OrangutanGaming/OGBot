@@ -1,15 +1,17 @@
 from discord.ext import commands
 import discord
+import cogs.utils.checks as checks
 
 class Edit():
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(hidden=True, no_pm=True)
-    async def edit(self, ctx, id, *, new: str):
-        if ctx.guild.id == 166488311458824193 or ctx.guild.id == 291171882512678912:
-            msg = await ctx.channel.get_message(id)
-            if msg.author.id == 281486759332806658:
+    @checks.is_dev()
+    async def edit(self, ctx, channel, id, *, new: str):
+        if ctx.guild.id == 281968634086031363:
+            msg = await self.bot.get_channel(int(channel)).get_message(id)
+            if msg.author.id == self.bot.user.id:
                 await msg.edit(content=new)
                 try: await ctx.message.delete()
                 except discord.Forbidden: return

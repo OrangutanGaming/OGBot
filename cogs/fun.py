@@ -125,15 +125,53 @@ class Fun():
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def glen(self, ctx):
+    async def glen(self, ctx, *, picChosen=None):
         """Posts a random Glen quote."""
-        number = str(random.randint(1, len(Glen.quotes)))
-        url = Glen.quotes[number]
+        link=False
+        if not picChosen:
+            picName = random.choice(list(Glen.quotes.keys()))
+        else:
+            picChosen = picChosen.lower()
+            if picChosen == "list":
+                allQuotes = "`" + "` ,`".join(list(Glen.quotes.keys())) + "`"
+                await ctx.send(f"All Glen quotes are: {allQuotes}. Use `link` to see the link for the album.")
+                return
+            elif picChosen == "link":
+                await ctx.send(Glen.album)
+                return
+            elif "debug" in picChosen:
+                link=True
+                if picChosen.strip("debug ") in list(Glen.quotes.keys()):
+                    picName = picChosen.strip("debug ")
+                else:
+                    picName = None
+            elif not picChosen in list(Glen.quotes.keys()):
+                picName = None
+            else:
+                picName = picChosen
 
-        embed = discord.Embed(title="Glen Quote")
-        embed.set_image(url=url)
+        if picName:
+            url = Glen.quotes[picName]
 
-        await ctx.send(embed=embed)
+            embed = discord.Embed(title="Glen Quote")
+            embed.set_image(url=url)
+
+            await ctx.send(embed=embed)
+
+            if link:
+                await ctx.send(f"<{url}>")
+        else:
+            await ctx.send(f"Could not find the quote `{picChosen}`")
+            return
+
+    @commands.command(aliases=["bin"])
+    async def binary(self, ctx, *, text = None):
+        """Convert text to binary"""
+        if not text:
+            await ctx.send("`o!binary <text>`")
+            return
+        text_bytes = bytes(text, "ascii")
+        await ctx.send(" ".join(["{0:b}".format(x) for x in text_bytes]))
 
 def setup(bot):
     bot.add_cog(Fun(bot))

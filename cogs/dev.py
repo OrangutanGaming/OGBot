@@ -11,11 +11,9 @@ class Devs():
         self.old = BotIDs.dev_role_old
         self.dev = BotIDs.dev_id
         
-    @commands.command(hidden=True, no_pm=True)
-    async def dev(self, ctx):
-
-        # Command Use: For Dev to be able to get perms on a server for debugging purposes easily
-
+    @commands.command(hidden=True, no_pm=True, name="dev")
+    async def _dev(self, ctx):
+        """For Dev to be able to get perms on a server for debugging purposes easily"""
         if ctx.message.author.id == self.dev: #OGaming's User ID
             Msgs=[ctx.message]
             try:

@@ -4,13 +4,14 @@ import BotIDs
 import logging
 import traceback
 import cogs.utils.prefix as Prefixes
-import rethinkdb as r
+import cogs.utils.checks as checks
+# import rethinkdb as r
 import datetime
 import os
 
 #r.connect("localhost", 28015).repl()
 
-description = "A bot built by Orangutan Gaming (OGaming#7135, 150750980097441792)"
+description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097441792)"
 
 prefixes = Prefixes.prefixes
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), description=description)
@@ -70,12 +71,15 @@ async def on_message(message):
 @bot.event
 async def on_guild_join(guild):
     try:
-        await guild.default_channel.send("Welcome to the world of Orangutans! I was made by `OGaming#7135` Run `{}help` for"
-                                     " help".format(prefixes[0]))
+        await guild.default_channel.send("Welcome to the world of Orangutans! "
+                                         "I was made by `{0}` Run `{1}help` for help".format(BotIDs.dev_name, prefixes[0]) +
+                                         "Don't forget to join the Discord server at https://discord.gg/duRB6Qg"
+                                         )
     except discord.Forbidden:
         return
 
 @bot.command(hidden=True)
+@checks.is_dev()
 async def load(ctx, extension_name : str):
     try:
         bot.load_extension(extension_name)
@@ -85,15 +89,27 @@ async def load(ctx, extension_name : str):
     await ctx.send(bot.blank + "{} loaded.".format(extension_name), delete_after=3)
 
 @bot.command(hidden=True)
+@checks.is_dev()
 async def unload(ctx, extension_name : str):
     bot.unload_extension(extension_name)
     await ctx.send(bot.blank + "{} unloaded.".format(extension_name), delete_after=3)
+
+@bot.command(hidden=True)
+@checks.is_dev()
+async def shutdown(ctx):
+    """Shutdown"""
+    try:
+        await ctx.send("System Shutting down.")
+        await bot.logout()
+        await bot.close()
+    except:
+        await ctx.send("Error!")
 
 @bot.command()
 async def join(ctx):
     """Shows info on how to add the bot."""
     options=["This bot is currently a work in progress. It is not public yet. If you're interested in "
-             "helping with testing or have any ideas, PM OGaming#7135",
+             f"helping with testing or have any ideas, PM {BotIDs.dev_name}",
              "Anyone with the permission `Manage server` can add me to a server using the following link: " + BotIDs.URL]
     DServer="https://discord.gg/duRB6Qg"
     await ctx.send(options[1]+"\nYou can also join the Discord channel at: " + DServer + "\nYou can also help "
@@ -164,17 +180,22 @@ async def on_command_error(error, ctx):
             print(f"PM - Command: {ctx.message.content}")
 
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.channel.send(error)
+        try: await ctx.channel.send(error)
+        except: return
     elif isinstance(error, commands.errors.CommandNotFound):
-        await ctx.channel.send("`{}` is not a valid command".format(ctx.invoked_with))
+        try: await ctx.channel.send("`{}` is not a valid command".format(ctx.invoked_with))
+        except: return
     elif isinstance(error, commands.errors.CommandInvokeError):
         print(error)
     elif isinstance(error, discord.Forbidden):
-        await ctx.channel.send("I do not have permissions")
+        try: await ctx.channel.send("I do not have permissions")
+        except: return
     elif isinstance(error, discord.ext.commands.errors.BadArgument):
-        await ctx.channel.send(f"Bad Argument: {error}")
+        try: await ctx.channel.send(f"Bad Argument: {error}")
+        except: return
     elif isinstance(error, discord.ext.commands.errors.CheckFailure):
-        await ctx.channel.send(f"You do not have permission to use the command `{ctx.invoked_with}`.")
+        try: await ctx.channel.send(f"You do not have permission to use the command `{ctx.invoked_with}`.")
+        except: return
     else:
         print(f"{type(error)}: {error}")
 
