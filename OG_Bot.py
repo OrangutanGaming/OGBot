@@ -91,14 +91,14 @@ async def load(ctx, extension_name : str):
 
 @bot.command(hidden=True)
 @checks.is_dev()
-async def unload(ctx, extension_name : str):
+async def unload(ctx, extension_name: str):
     """Unloads a module."""
     bot.unload_extension(extension_name)
     await ctx.send(bot.blank + "{} unloaded.".format(extension_name), delete_after=3)
     
 @bot.command(name="reload", hidden=True)
 @checks.is_dev()
-async def _reload(ctx, *, module : str):
+async def _reload(ctx, *, module: str):
     """Reloads a module."""
     try:
         bot.unload_extension(module)
