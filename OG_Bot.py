@@ -81,6 +81,7 @@ async def on_guild_join(guild):
 @bot.command(hidden=True)
 @checks.is_dev()
 async def load(ctx, extension_name : str):
+    """Loads a module."""
     try:
         bot.load_extension(extension_name)
     except (AttributeError, ImportError) as e:
@@ -91,8 +92,21 @@ async def load(ctx, extension_name : str):
 @bot.command(hidden=True)
 @checks.is_dev()
 async def unload(ctx, extension_name : str):
+    """Unloads a module."""
     bot.unload_extension(extension_name)
     await ctx.send(bot.blank + "{} unloaded.".format(extension_name), delete_after=3)
+    
+@bot.command(name="reload", hidden=True)
+@checks.is_dev()
+async def _reload(ctx, *, module : str):
+    """Reloads a module."""
+    try:
+        bot.unload_extension(module)
+        bot.load_extension(module)
+    except Exception as e:
+        await ctx.send("{}: {}".format(type(e).__name__, e))
+    else:
+        await ctx.send(":thumbsup:")
 
 @bot.command(hidden=True)
 @checks.is_dev()

@@ -18,7 +18,7 @@ class Info():
         elif member.status is discord.Status.idle:
             status = "<:idle:314134671690563586>"
         elif member.status is discord.Status.do_not_disturb:
-            status = "<:DnD:314134672101867520>"
+            status = "<:do_not_disturb:314134672101867520>"
         else:
             status = "<:offline:314134672126771200>"
 
