@@ -14,13 +14,13 @@ class Info():
             member = ctx.message.author
 
         if member.status is discord.Status.online:
-            status = "<:online:212789758110334977>"
+            status = "<:online:314134671791357954>"
         elif member.status is discord.Status.idle:
-            status = "<:away:212789859071426561>"
+            status = "<:idle:314134671690563586>"
         elif member.status is discord.Status.do_not_disturb:
-            status = "<:do_not_disturb:236744731088912384>"
+            status = "<:DnD:314134672101867520>"
         else:
-            status = "<:offline:212790005943369728>"
+            status = "<:offline:314134672126771200>"
 
         embed = discord.Embed(title=f"User Info for {status}{member}",
                               colour=member.colour)
