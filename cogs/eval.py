@@ -28,7 +28,7 @@ class Eval():
 
     @commands.command(hidden=True)
     @checks.is_dev()
-    async def eval(self, ctx, *, code : str):
+    async def eval(self, ctx, *, code: str):
         original = ctx.message
 
         code = code.strip("`")
