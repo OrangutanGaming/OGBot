@@ -9,7 +9,7 @@ import cogs.utils.checks as checks
 import datetime
 import os
 
-#r.connect("localhost", 28015).repl()
+# r.connect("localhost", 28015).repl()
 
 description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097441792)"
 
@@ -80,7 +80,7 @@ async def on_guild_join(guild):
 
 @bot.command(hidden=True)
 @checks.is_dev()
-async def load(ctx, extension_name : str):
+async def load(ctx, extension_name: str):
     """Loads a module."""
     try:
         bot.load_extension(extension_name)
@@ -191,6 +191,7 @@ async def on_command_error(error, ctx):
         try:
             print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
         except:
+            print(type(error))
             print(f"PM - Command: {ctx.message.content}")
 
     if isinstance(error, commands.MissingRequiredArgument):
