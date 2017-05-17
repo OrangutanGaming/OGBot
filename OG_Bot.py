@@ -180,7 +180,7 @@ if __name__ == "__main__":
             print("Failed to load extension {}\n{}".format(extension, exc))
 
 @bot.event
-async def on_command_error(error, ctx):
+async def on_command_error(ctx, error):
     blacklist = [commands.errors.CommandNotFound,
                  commands.MissingRequiredArgument,
                  commands.BadArgument,
@@ -192,7 +192,6 @@ async def on_command_error(error, ctx):
             print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, "
                   f"Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
         except:
-            print(f"E: {type(error)} Ctx: {type(ctx)}")
             print(f"PM - Command: {ctx.message.content}")
 
     if isinstance(error, commands.MissingRequiredArgument):
