@@ -189,9 +189,10 @@ async def on_command_error(error, ctx):
 
     if not type(error) in blacklist:
         try:
-            print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
+            print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, "
+                  f"Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
         except:
-            print(type(error))
+            print(f"E: {type(error)} Ctx: {type(ctx)}")
             print(f"PM - Command: {ctx.message.content}")
 
     if isinstance(error, commands.MissingRequiredArgument):
