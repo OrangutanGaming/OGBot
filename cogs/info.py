@@ -77,7 +77,7 @@ class Info():
             embed.set_image(url=self.bot.user.avatar_url)
             embed.add_field(name="Avatar URL", value=self.bot.user.avatar_url)
 
-        embed.add_field(name="Owner", value="OGaming#7135")
+        embed.add_field(name="Owner", value=BotIDs.dev_name)
         embed.add_field(name="Prefixes", value=Prefix.Prefix("`") + " `@OG_Bot`")
         embed.add_field(name="GitHub", value="https://github.com/OrangutanGaming/OG_Bot")
         embed.add_field(name="OAuth2", value=BotIDs.URL)
