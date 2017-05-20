@@ -23,7 +23,7 @@ class GuildLogs():
             # Send all the server's info
 
             server = guild
-            embed = discord.Embed(title="Server Info for {}".format(server.name), colour=0xffa500)
+            embed = discord.Embed(title=f"Server Info for {server.name}", colour=0xffa500)
 
             embed.set_image(url=server.icon_url)
             embed.set_footer(text=("Server created at " + server.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
@@ -61,7 +61,7 @@ class GuildLogs():
                 embed.set_image(url=server.icon_url)
                 embed.add_field(name="Avatar URL", value=server.icon_url)
 
-                await self.bot.get_channel(315140647764099073).send(embed=embed)
+            await self.bot.get_channel(315140647764099073).send(embed=embed)
 
 
         except:
