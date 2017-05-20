@@ -10,7 +10,7 @@ class Moderation():
     @checks.has_permissions_owner(kick_members=True)
     async def kick(self, ctx, member: discord.Member = None, *, reason: str = None):
         async def ban(self, ctx, member: discord.Member = None, *, reason: str = None):
-            if not ctx.message.channel.permissions_for(ctx.guild.me).ban_members:
+            if not ctx.message.channel.permissions_for(ctx.guild.me).kick_members:
                 await ctx.send("I need the permission `Ban Members`.")
                 return
 
