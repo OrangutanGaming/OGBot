@@ -37,7 +37,8 @@ startup_extensions = ["cogs.clear",
                       "cogs.eval",
                       "cogs.edit",
                       "cogs.messages",
-                      "cogs.guildlogs"
+                      "cogs.guildlogs",
+                      "cogs.moderation"
                       ]
 
 @bot.event
