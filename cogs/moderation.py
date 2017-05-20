@@ -7,16 +7,35 @@ class Moderation():
         self.bot = bot
 
     @commands.command()
+    @checks.has_permissions_owner(kick_members=True)
     async def kick(self, ctx, member: discord.Member = None, *, reason: str = None):
-        if ctx.message.channel.permissions_for(ctx.message.author).kick_members or checks.is_dev_check(ctx):
-            await member.kick(reason)
-        else:
-            await ctx.send("You need the permission `Kick Members` to run this command.")
-            return
+        async def ban(self, ctx, member: discord.Member = None, *, reason: str = None):
+            if not ctx.message.channel.permissions_for(ctx.guild.me).ban_members:
+                await ctx.send("I need the permission `Ban Members`.")
+                return
+
+            if not member:
+                await ctx.send("You must give a user!")
+                return
+
+            if member == ctx.guild.owner:
+                await ctx.send("You can't kick the owner.")
+                return
+
+            try:
+                await member.kick(reason=reason)
+            except discord.Forbidden:
+                await ctx.send("Error")
+                return
 
     @commands.command()
     @checks.has_permissions_owner(ban_members=True)
     async def ban(self, ctx, member: discord.Member = None, *, reason: str = None):
+        if not ctx.message.channel.permissions_for(ctx.guild.me).ban_members:
+            await ctx.send("I need the permission `Kick Members`.")
+            return
+
+
         if not member:
             await ctx.send("You must give a user!")
             return
@@ -25,7 +44,6 @@ class Moderation():
             await ctx.send("You can't ban the owner.")
             return
 
-        print(reason)
         try: await member.ban(reason=reason)
         except discord.Forbidden:
             await ctx.send("Error")
