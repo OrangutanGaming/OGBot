@@ -26,7 +26,7 @@ class Moderation():
             return
 
         print(reason)
-        try: await member.ban(reason)
+        try: await member.ban(reason=reason)
         except discord.Forbidden:
             await ctx.send("Error")
             return
