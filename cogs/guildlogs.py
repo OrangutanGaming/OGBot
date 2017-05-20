@@ -104,6 +104,7 @@ class GuildLogs():
         embed.set_footer(text=("Server count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
 
         await self.bot.get_channel(315428002034876416).send(embed=embed)
+        await ctx.send(":thumbsup:")
 
 def setup(bot):
     bot.add_cog(GuildLogs(bot))
