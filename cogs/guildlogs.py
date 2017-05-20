@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import datetime
 import BotIDs
+import cogs.utils.checks as checks
 
 
 class GuildLogs():
@@ -78,8 +79,8 @@ class GuildLogs():
             pass
 
         # # Update server count message
-        # 
-        # channel = self.bot.get_channel(315140647764099073)
+        #
+        # channel = self.bot.get_channel(315428002034876416)
         # message = await channel.get_message()
 
     async def on_guild_remove(self, guild):
@@ -89,11 +90,14 @@ class GuildLogs():
 
         await self.bot.get_channel(315140647764099073).send(embed=embed)
 
-    @commands.command()
+    @commands.command(hidden=True)
+    @checks.is_dev()
     async def servercountsend(self, ctx):
         embed = discord.Embed(description=f"Current server count of {self.bot.user.mention}")
         embed.add_field(name="Server Count", value=str(len(self.bot.guilds)))
         embed.set_footer(text=("Server count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+
+        await self.bot.get_channel(315428002034876416).send(embed=embed)
 
 def setup(bot):
     bot.add_cog(GuildLogs(bot))
