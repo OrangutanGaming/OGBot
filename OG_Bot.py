@@ -71,12 +71,76 @@ async def on_message(message):
 @bot.event
 async def on_guild_join(guild):
     try:
+        # Send public log
+
+        embed = discord.Embed(description=f"{bot.user.mention} joined the guild {guild.name} ({guild.id})")
+        embed.add_field(name="Owner", value=f"{str(guild.owner)} ({guild.owner.id}) <@{guild.owner.id}>")
+        embed.set_footer(text=("Server joined on " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+
+        await bot.get_channel(315140647764099073).send(embed=embed)
+
+        # Send all the server's info
+
+        server = guild
+        embed = discord.Embed(title="Server Info for {}".format(server.name), colour=0xffa500)
+
+        embed.set_image(url=server.icon_url)
+        embed.set_footer(text=("Server created at " + server.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
+
+        embed.add_field(name="ID", value=server.id)
+
+        def Roles(server):
+            counter = 0
+            for role in server.roles:
+                if role.name == "@everyone":
+                    continue
+                counter += 1
+            return str(counter)
+
+        def Bots(server):
+            count = 0
+            for member in server.members:
+                if member.bot:
+                    count += 1
+                else:
+                    continue
+
+            return str(count)
+
+        embed.add_field(name="Role Count", value=str(len(server.roles) - 1))
+        embed.add_field(name="Owner", value=f"{str(server.owner)} <@{server.owner.id}>")
+        embed.add_field(name="Region", value=server.region)
+        embed.add_field(name="Member Count", value=server.member_count)
+        embed.add_field(name="Bot Count", value=Bots(server))
+        embed.add_field(name="Text Channel Count", value=str(len(server.text_channels)))
+        embed.add_field(name="Voice Channel Count", value=str(len(server.voice_channels)))
+        embed.add_field(name="Total Channel Count", value=str(len(server.channels)))
+        embed.add_field(name="Default Channel", value=server.default_channel.name)
+        if server.icon_url:
+            embed.set_image(url=server.icon_url)
+            embed.add_field(name="Avatar URL", value=server.icon_url)
+
+            await bot.get_channel(315140647764099073).send(embed=embed)
+
+
+    except:
+        pass
+
+    try:
         await guild.default_channel.send("Welcome to the world of Orangutans! "
                                          "I was made by `{0}` Run `{1}help` for help".format(BotIDs.dev_name, prefixes[0]) +
                                          "Don't forget to join the Discord server at https://discord.gg/duRB6Qg"
                                          )
     except discord.Forbidden:
         return
+
+@bot.event
+async def on_guild_remove(guild):
+    embed = discord.Embed(description=f"{bot.user.mention} left the guild {guild.name} ({guild.id})")
+    embed.add_field(name="Owner", value=f"{str(guild.owner)} ({guild.owner.id}) <@{guild.owner.id}>")
+    embed.set_footer(text=("Server left on " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+
+    await bot.get_channel(315140647764099073).send(embed=embed)
 
 @bot.command(hidden=True)
 @checks.is_dev()
