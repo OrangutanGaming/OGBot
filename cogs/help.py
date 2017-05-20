@@ -38,7 +38,7 @@ class Help():
         """Shows the bot's prefixes."""
         await ctx.send(self.bot.blank + f"Prefixes: `@{self.bot.user.name}`, " + Prefix.Prefix('`'))
 
-    @commands.command(aliases=["scount"])
+    @commands.command(aliases=["scount", "guildcount", "gcount"])
     async def servercount(self, ctx):
         """Shows the server count of the bot."""
         await ctx.send(self.bot.blank + "Server Count: " + str(len(self.bot.guilds)))
