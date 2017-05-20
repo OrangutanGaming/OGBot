@@ -14,12 +14,38 @@ def is_dev_check(ctx):
 def is_dev():
     return commands.check(lambda ctx: is_dev_check(ctx))
 
-def check_permissions(ctx, perms):
+def has_permissions_owner_check(ctx, perms):
     msg = ctx.message
     if is_owner_check(msg):
         return True
 
-    ch = msg.channel
+    channel = msg.channel
     author = msg.author
-    resolved = ch.permissions_for(author)
+    resolved = channel.permissions_for(author)
     return all(getattr(resolved, name, None) == value for name, value in perms.items())
+
+def has_permissions_owner(**perms):
+    def predicate(ctx):
+        return has_permissions_owner_check(ctx, perms)
+
+    return commands.check(predicate)
+
+def has_permissions(**perms):
+    def predicate(ctx):
+        msg = ctx.message
+        ch = msg.channel
+        permissions = ch.permissions_for(msg.author)
+        return all(getattr(permissions, perm, None) == value for perm, value in perms.items())
+
+    return commands.check(predicate)
+
+# def has_permissions_owner(**perms):
+#     if is_owner_check(ctx)
+#
+#     def predicate(ctx):
+#         msg = ctx.message
+#         ch = msg.channel
+#         permissions = ch.permissions_for(msg.author)
+#         return all(getattr(permissions, perm, None) == value for perm, value in perms.items())
+#
+#     return commands.check(predicate)
