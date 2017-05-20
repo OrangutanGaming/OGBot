@@ -17,9 +17,15 @@ class Moderation():
     @commands.command()
     @checks.has_permissions_owner(ban_members=True)
     async def ban(self, ctx, member: discord.Member = None, *, reason: str = None):
+        if not member:
+            await ctx.send("You must give a user!")
+            return
+
         if member == ctx.guild.owner:
             await ctx.send("You can't ban the owner.")
+            return
 
+        print(reason)
         try: await member.ban(reason)
         except discord.Forbidden:
             await ctx.send("Error")
