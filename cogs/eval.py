@@ -60,50 +60,49 @@ class Eval():
         lines.append(">>> {}".format(python.format(result)))
         lines.append("```")
 
-        await original.edit(content="\n".join(lines))
+        await ctx.send("\n".join(lines))
 
     @commands.command(name="exec", aliases = ["ex", "exed"], hidden=True)
     @checks.is_dev()
     async def _exec(self, ctx, *, body: str):
-        if ctx.author.id == BotIDs.dev_id:
-            env = {
-                "bot": self.bot,
-                "ctx": ctx,
-                "channel": ctx.channel,
-                "author": ctx.author,
-                "server": ctx.guild,
-                "message": ctx.message,
-                "_": self._last_result
-            }
+        env = {
+            "bot": self.bot,
+            "ctx": ctx,
+            "channel": ctx.channel,
+            "author": ctx.author,
+            "server": ctx.guild,
+            "message": ctx.message,
+            "_": self._last_result
+        }
 
-            env.update(globals())
+        env.update(globals())
 
-            body = self.cleanup_code(body)
-            stdout = io.StringIO()
+        body = self.cleanup_code(body)
+        stdout = io.StringIO()
 
-            to_compile = "async def func():\n{}".format(textwrap.indent(body, "  "))
+        to_compile = "async def func():\n{}".format(textwrap.indent(body, "  "))
 
-            try:
-                exec(to_compile, env)
-            except SyntaxError as e:
-                return await ctx.send(self.get_syntax_error(e))
+        try:
+            exec(to_compile, env)
+        except SyntaxError as e:
+            return await ctx.send(self.get_syntax_error(e))
 
-            func = env["func"]
-            try:
-                with redirect_stdout(stdout):
-                    ret = await func()
-            except Exception as e:
-                value = stdout.getvalue()
-                await ctx.send(self.bot.blank + "```py\n{}{}\n```".format(value, traceback.format_exc()))
+        func = env["func"]
+        try:
+            with redirect_stdout(stdout):
+                ret = await func()
+        except Exception as e:
+            value = stdout.getvalue()
+            await ctx.send(self.bot.blank + "```py\n{}{}\n```".format(value, traceback.format_exc()))
+        else:
+            value = stdout.getvalue()
+
+            if ret is None:
+                if value:
+                    await ctx.send(self.bot.blank + "```py\n%s\n```" % value)
             else:
-                value = stdout.getvalue()
-
-                if ret is None:
-                    if value:
-                        await ctx.send(self.bot.blank + "```py\n%s\n```" % value)
-                else:
-                    self._last_result = ret
-                    await ctx.send(self.bot.blank + "```py\n%s%s\n```" % (value, ret))
+                self._last_result = ret
+                await ctx.send(self.bot.blank + "```py\n%s%s\n```" % (value, ret))
 
 def setup(bot):
     bot.add_cog(Eval(bot))
