@@ -61,7 +61,7 @@ class GuildLogs():
                 embed.set_image(url=server.icon_url)
                 embed.add_field(name="Avatar URL", value=server.icon_url)
 
-            await self.bot.get_channel(315140647764099073).send(embed=embed)
+            await self.bot.get_channel(315420015040135178).send(embed=embed)
 
 
         except:
