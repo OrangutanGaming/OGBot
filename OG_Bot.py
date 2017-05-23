@@ -59,7 +59,7 @@ async def on_message(message):
     if message.author.bot:
         return
     if not bot.ready:
-        await message.channel.send("The bot is still loading.")
+        await message.channel.send("I am still loading.")
         return
     # if message.content.endswith == "":
     #     await message.channel.send("What?")
