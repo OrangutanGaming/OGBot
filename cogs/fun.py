@@ -166,7 +166,7 @@ class Fun():
             return
 
     @commands.command(aliases=["glyphs"])
-    async def glyph(self, ctx, glyph: str = None):
+    async def glyph(self, ctx, *, glyph: str = None):
         if not glyph:
             allGlyphs = "`" + "`, `".join(Glyphs.glyphs.keys()) + "`"
             await ctx.send(content=f"All available glyphs are: {allGlyphs}")
