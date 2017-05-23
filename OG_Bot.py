@@ -19,6 +19,7 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), descrip
 bot.blank = "\u200B"
 bot.config = BotIDs.settings
 bot.prefixes = prefixes
+bot.ready = False
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.WARNING)
@@ -51,10 +52,14 @@ async def on_ready():
     print("Playing", gamename)
     print(BotIDs.URL)
     print("Prefixes: " + Prefixes.Prefix('"'))
+    bot.ready = True
 
 @bot.event
 async def on_message(message):
     if message.author.bot:
+        return
+    if not bot.ready:
+        await message.channel.send("The bot is still loading.")
         return
     # if message.content.endswith == "":
     #     await message.channel.send("What?")
