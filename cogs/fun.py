@@ -8,6 +8,7 @@ import discord
 import cogs.utils.checks as checks
 import cogs.stickers as Stickers
 import cogs.glen as Glen
+import cogs.glyphs as Glyphs
 import random
 
 class Fun():
@@ -163,6 +164,23 @@ class Fun():
         else:
             await ctx.send(f"Could not find the quote `{picChosen}`")
             return
+
+    @commands.command(aliases=["glyphs"])
+    async def glyph(self, ctx, glyph: str = None):
+        if not glyph:
+            allGlyphs = "`" + "`, `".join(Glyphs.glyphs.keys()) + "`"
+            await ctx.send(content=f"All available glyphs are: {allGlyphs}")
+            return
+        if not glyph.upper() in Glyphs.glyphs:
+            await ctx.send(content=f"Can't find the glyph `{glyph}`.")
+            return
+        glyph = glyph.upper()
+        url = Glyphs.glyphs[glyph]
+
+        embed = discord.Embed(title=f"{glyph.upper()}")
+        embed.set_image(url=url)
+
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["bin"])
     async def binary(self, ctx, *, text = None):
