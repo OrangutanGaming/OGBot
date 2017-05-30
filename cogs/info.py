@@ -53,7 +53,7 @@ class Info():
     
     @commands.command()
     async def info(self, ctx):
-        """Shows the bot"s info."""
+        """Shows the bot's info."""
         server=ctx.message.guild
         membObj=server.me
         embed = discord.Embed(title="Information on {}".format(self.bot.user.name),
@@ -87,7 +87,7 @@ class Info():
     
     @commands.command(aliases=["sinfo"], no_pm=True)
     async def serverinfo(self, ctx):
-        """Shows the current server"s info."""
+        """Shows the current server's info."""
         server = ctx.message.guild
 
         embed = discord.Embed(title="Server Info for {}".format(server.name), colour=0xffa500)
