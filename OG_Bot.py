@@ -20,6 +20,7 @@ bot.blank = "\u200B"
 bot.config = BotIDs.settings
 bot.prefixes = prefixes
 bot.ready = False
+bot.uptime = datetime.datetime.utcnow()
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.WARNING)
@@ -59,8 +60,10 @@ async def on_message(message):
     if message.author.bot:
         return
     if not bot.ready:
-        await message.channel.send("I am still loading.")
-        return
+        for prefix in prefixes:
+            if message.content.startswith(prefix):
+                await message.channel.send("I am still loading.")
+                return
     # if message.content.endswith == "":
     #     await message.channel.send("What?")
     #     return
