@@ -7,6 +7,6 @@ def Prefix(quote = None):
         quote = "`"
     pPrefix = ""
     for prefix in prefixes:
-        pPrefix += ("{}".format(quote)+prefix+"{}".format(quote)+", ")
+        pPrefix += (f"{quote}" + prefix + f"{quote}" + ", ")
     pPrefix = pPrefix[:-2]
     return pPrefix
