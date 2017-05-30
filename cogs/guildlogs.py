@@ -107,6 +107,26 @@ class GuildLogs():
 
         await message.edit(embed=embed)
 
+    async def on_member_join(self, member):
+        channel = self.bot.get_channel(315428002034876416)
+        message = await channel.get_message(319027169848197124)
+
+        embed = discord.Embed(description=f"Current user count of {self.bot.user.mention}")
+        embed.add_field(name="User Count", value=str(len(self.bot.users)))
+        embed.set_footer(text=("User count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+
+        await message.edit(embed=embed)
+
+    async def on_member_remove(self, member):
+        channel = self.bot.get_channel(315428002034876416)
+        message = await channel.get_message(319027169848197124)
+
+        embed = discord.Embed(description=f"Current user count of {self.bot.user.mention}")
+        embed.add_field(name="User Count", value=str(len(self.bot.users)))
+        embed.set_footer(text=("User count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+
+        await message.edit(embed=embed)
+
     @commands.command(hidden=True)
     @checks.is_dev()
     async def servercountsend(self, ctx):
