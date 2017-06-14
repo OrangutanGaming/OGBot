@@ -10,7 +10,7 @@ class GlyphPost():
     @commands.command(aliases=["gp"])
     async def glyphpost(self, ctx, user=None, *, codes=None):
         async def sendUsage(ctx):
-            await ctx.send("```q!glyphpost [user]"
+            await ctx.send("```o!glyphpost [user]"
                            "\nxxxx-xxxx-xxxx-xxxx"
                            "\nxxxx-xxxx-xxxx-xxxx```")
 
