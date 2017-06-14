@@ -8,9 +8,9 @@ class GlyphPost():
         self.bot = bot
 
     @commands.command(aliases=["gp"])
-    async def glyphpost(self, ctx, user = None, *, codes = None):
+    async def glyphpost(self, ctx, user=None, *, codes=None):
         async def sendUsage(ctx):
-            await ctx.send("```q!glyphpost [platform] [user]"
+            await ctx.send("```q!glyphpost [user]"
                            "\nxxxx-xxxx-xxxx-xxxx"
                            "\nxxxx-xxxx-xxxx-xxxx```")
 
@@ -25,21 +25,21 @@ class GlyphPost():
                      "PS4"]
 
         colours = {
-            "PC": "0xFF00FF", # 0xFFFFFF
+            "PC": "0xFF00FF",  # 0xFFFFFF
             "Xbox": "0x46E300",
             "PS4": "0x0062FF"
         }
 
-        # if not platform or not codes:
-        #     await sendUsage(ctx)
-        #     return
-        #
+        if not codes:
+            await sendUsage(ctx)
+            return
+
         # if platform not in platforms:
         #     await ctx.send("Possible Platforms: " + " ,".join(platforms))
         #     return
 
         embed = discord.Embed(title=f"Glyphs"
-                                    # f" for {platform}"
+        # f" for {platform}"
                                     f"")
 
         if user.lower() != "none":
@@ -48,6 +48,7 @@ class GlyphPost():
                 return
 
             url = Glyphs.glyphs[user.upper()]
+
             embed.set_image(url=url)
 
         embed.set_footer(text=("Glyphs are the only endgame, Orangutan#9393"))
@@ -58,11 +59,8 @@ class GlyphPost():
         for code in codesL:
             embed.add_field(name="Code Link", value=code)
 
-        await ctx.send(embed=embed)
+        await ctx.send("@here", embed=embed)
         await ctx.message.delete()
-
-
-
 
 def setup(bot):
     bot.add_cog(GlyphPost(bot))
