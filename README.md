@@ -1,6 +1,6 @@
 # OG_Bot
 
-Feel free to join the Discord server is you have any issues! https://discord.gg/duRB6Qg
+Feel free to join the [Discord server](https://discord.gg/duRB6Qg) is you have any issues!
 
 **Steps to install**
 1. Download requirements
