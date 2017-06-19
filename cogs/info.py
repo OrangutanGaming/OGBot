@@ -2,6 +2,8 @@ from discord.ext import commands
 import discord
 import BotIDs
 import cogs.utils.prefix as Prefix
+import psutil
+import sys
 
 class Info():
     def __init__(self, bot):
@@ -56,7 +58,7 @@ class Info():
         """Shows the bot's info."""
         server=ctx.message.guild
         membObj=server.me
-        embed = discord.Embed(title="Information on {}".format(self.bot.user.name),
+        embed = discord.Embed(title=f"Information on {self.bot.user.name}",
                               colour=0xfe8600)
         embed.set_image(url=self.bot.user.avatar_url)
         embed.set_footer(text=("Bot created at " + self.bot.user.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
@@ -82,6 +84,11 @@ class Info():
         embed.add_field(name="GitHub", value="https://github.com/OrangutanGaming/OG_Bot")
         embed.add_field(name="OAuth2", value=BotIDs.URL)
         embed.add_field(name="Server Count", value=str(len(self.bot.guilds)))
+        embed.add_field(name="CPU%", value=psutil.cpu_percent())
+        embed.add_field(name="RAM%", value=psutil.virtual_memory().percent)
+        pyVersion = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+        embed.add_field(name="Python Version", value=f"{pyVersion} <:python:326405606225346560>")
+        embed.add_field(name="Discord.py Version", value=f"{discord.__version__} discord.py")
     
         await ctx.send(embed=embed)
     
@@ -90,40 +97,22 @@ class Info():
         """Shows the current server's info."""
         server = ctx.message.guild
 
-        embed = discord.Embed(title="Server Info for {}".format(server.name), colour=0xffa500)
+        embed = discord.Embed(title=f"Server Info for {server.name}", colour=0xffa500)
 
         embed.set_image(url=server.icon_url)
         embed.set_footer(text=("Server created at " + server.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
 
         embed.add_field(name="ID", value=server.id)
-
-        def Roles(server):
-            counter = 0
-            for role in server.roles:
-                if role.name == "@everyone":
-                    continue
-                counter+=1
-            return str(counter)
-
-        def Bots(server):
-            count=0
-            for member in server.members:
-                if member.bot:
-                    count+=1
-                else:
-                    continue
-
-            return str(count)
-
-        embed.add_field(name="Role Count", value=str( len(server.roles)-1 ))
+        embed.add_field(name="Role Count", value=str(len(server.roles)-1))
         embed.add_field(name="Owner", value=f"{str(server.owner)} <@{server.owner.id}>")
         embed.add_field(name="Region", value=server.region)
         embed.add_field(name="Member Count", value=server.member_count)
-        embed.add_field(name="Bot Count", value=Bots(server))
+        botCount = str(len([member.name for member in ctx.guild.members if member.bot]))
+        embed.add_field(name="Bot Count", value=botCount)
         embed.add_field(name="Text Channel Count", value=str(len(server.text_channels)))
         embed.add_field(name="Voice Channel Count", value=str(len(server.voice_channels)))
         embed.add_field(name="Total Channel Count", value=str(len(server.channels)))
-        embed.add_field(name="Default Channel", value=server.default_channel.name)
+        embed.add_field(name="Default Channel", value="{0.mention} ({0.name})".format(server.default_channel))
         if server.icon_url:
             embed.set_image(url=server.icon_url)
             embed.add_field(name="Avatar URL", value=server.icon_url)
