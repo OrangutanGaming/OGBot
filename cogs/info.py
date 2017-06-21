@@ -21,6 +21,8 @@ class Info():
             status = "<:idle:314134671690563586>"
         elif member.status is discord.Status.do_not_disturb:
             status = "<:do_not_disturb:314134672101867520>"
+        # elif member.status is discord.Status.streaming:
+        #     status = "<:streaming:327122815394381824>"
         else:
             status = "<:offline:314134672126771200>"
 
