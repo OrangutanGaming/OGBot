@@ -8,6 +8,9 @@ import cogs.utils.checks as checks
 # import rethinkdb as r
 import datetime
 import os
+from raven import Client
+
+sentryClient = Client('https://da21d24b05bb41228fd534f867d16fee:a7d8fa2ee3f04537bd021e505cc1385f@sentry.io/181224')
 
 # r.connect("localhost", 28015).repl()
 
@@ -189,12 +192,16 @@ async def on_command_error(ctx, error):
                  commands.CheckFailure
                  ]
 
-    if not type(error) in blacklist:
-        try:
-            print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, "
-                  f"Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
-        except:
-            print(f"PM - Command: {ctx.message.content}")
+    if type(error) not in blacklist:
+        sentryClient.captureException()
+        # try:
+        #     print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, "
+        #           f"Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
+        # except:
+        #     try:
+        #         print(f"PM - Command: {ctx.message.content}")
+        #     except:
+        #         print("Error")
 
     if isinstance(error, commands.MissingRequiredArgument):
         try: await ctx.channel.send(error)
@@ -202,18 +209,18 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.errors.CommandNotFound):
         try: await ctx.channel.send("`{}` is not a valid command".format(ctx.invoked_with))
         except: return
-    elif isinstance(error, commands.errors.CommandInvokeError):
-        print(error)
+    # elif isinstance(error, commands.errors.CommandInvokeError):
+    #     print(error)
     elif isinstance(error, discord.Forbidden):
         try: await ctx.channel.send("I do not have permissions")
         except: return
-    elif isinstance(error, discord.ext.commands.errors.BadArgument):
+    elif isinstance(error, commands.errors.BadArgument):
         try: await ctx.channel.send(f"Bad Argument: {error}")
         except: return
-    elif isinstance(error, discord.ext.commands.errors.CheckFailure):
+    elif isinstance(error, commands.errors.CheckFailure):
         try: await ctx.channel.send(f"You do not have permission to use the command `{ctx.invoked_with}`.")
         except: return
     else:
-        print(f"{type(error)}: {error}")
+        sentryClient.captureException()
 
 bot.run(BotIDs.token)
