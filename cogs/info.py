@@ -10,38 +10,38 @@ class Info():
         self.bot = bot
 
     @commands.command(aliases=["uinfo"], no_pm=True)
-    async def userinfo(self, ctx, member: discord.Member = None):
+    async def userinfo(self, ctx, user: discord.User = None):
         """Shows the info on a user."""
-        if not member:
-            member = ctx.message.author
+        if not user:
+            user = ctx.message.author
 
-        if member.status is discord.Status.online:
+        if user.status is discord.Status.online:
             status = "<:online:314134671791357954>"
-        elif member.status is discord.Status.idle:
+        elif user.status is discord.Status.idle:
             status = "<:idle:314134671690563586>"
-        elif member.status is discord.Status.do_not_disturb:
+        elif user.status is discord.Status.do_not_disturb:
             status = "<:do_not_disturb:314134672101867520>"
         # elif member.status is discord.Status.streaming:
         #     status = "<:streaming:327122815394381824>"
         else:
             status = "<:offline:314134672126771200>"
 
-        embed = discord.Embed(title=f"User Info for {status}{member}",
-                              colour=member.colour)
+        embed = discord.Embed(title=f"User Info for {status}{user}",
+                              colour=user.colour)
 
-        avatar_url = member.avatar_url.replace("webp", "png")
+        avatar_url = user.avatar_url.replace("webp", "png")
         embed.set_thumbnail(url=avatar_url.replace("size=1024", "size=256"))
-        embed.set_footer(text=("Account Created at " + member.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
-        embed.set_author(name=f"{member}", url=avatar_url, icon_url=avatar_url)
+        embed.set_footer(text=("Account Created at " + user.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
+        embed.set_author(name=f"{user}", url=avatar_url, icon_url=avatar_url)
     
-        if member.game:
-            embed.add_field(name="Status", value=f"**Playing** {member.game.name}")
-        embed.add_field(name="ID", value=member.id)
+        if user.game:
+            embed.add_field(name="Status", value=f"**Playing** {user.game.name}")
+        embed.add_field(name="ID", value=user.id)
         embed.add_field(name="Member Since ",
-                        value=member.joined_at.strftime("%A %d %B %Y, %H:%M:%S"))
+                        value=user.joined_at.strftime("%A %d %B %Y, %H:%M:%S"))
     
         roleString = ""
-        for role in member.roles:
+        for role in user.roles:
             if role.name == "@everyone":
                 continue
             roleString += role.name + ", "
@@ -49,9 +49,9 @@ class Info():
     
         embed.add_field(name="Roles", value=roleString)
 
-        if member.avatar_url:
-            embed.set_image(url=member.avatar_url)
-            embed.add_field(name="Avatar URL", value=member.avatar_url)
+        if user.avatar_url:
+            embed.set_image(url=user.avatar_url)
+            embed.add_field(name="Avatar URL", value=user.avatar_url)
     
         await ctx.send(embed=embed)
     
