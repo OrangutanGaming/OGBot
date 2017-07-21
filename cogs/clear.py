@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import asyncio
+import cogs.utils.checks as checks
 
 class Clears():
     def __init__(self, bot):
@@ -56,6 +57,7 @@ class Clears():
             await ctx.send(self.bot.blank + "You must have the `Manage Messages` permission in order to run that command")
 
     @commands.command(aliases=["del", "delete", "wipe"], no_pm=True)
+    @checks.has_permissions_owner(manage_messages=True)
     async def clear(self, ctx, amount=100, channel: discord.TextChannel = None, user: discord.User = None):
         """Deletes an amount of messages given in the channel given."""
 
