@@ -17,7 +17,9 @@ sentryClient = Client('https://da21d24b05bb41228fd534f867d16fee:a7d8fa2ee3f04537
 description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097441792)"
 
 prefixes = Prefixes.prefixes
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), description=description)
+gamename = "with OG|o!help"
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), description=description,
+                   game=discord.Game(name=gamename))
 # bot.remove_command("help")
 bot.blank = "\u200B"
 bot.config = BotIDs.settings
@@ -49,8 +51,6 @@ startup_extensions = ["cogs.clear",
 
 @bot.event
 async def on_ready():
-    gamename="with OG|o!help"
-    await bot.change_presence(game=discord.Game(name=gamename))
     print("Logged in as")
     print("Name: " + str(bot.user))
     print("ID: " + str(bot.user.id))
