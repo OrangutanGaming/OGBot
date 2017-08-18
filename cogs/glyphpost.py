@@ -8,11 +8,8 @@ class GlyphPost():
         self.bot = bot
 
     @commands.command(aliases=["gp"])
-    async def glyphpost(self, ctx, user=None, *, codes=None):
-        async def sendUsage(ctx):
-            await ctx.send("```o!glyphpost [user]"
-                           "\nxxxx-xxxx-xxxx-xxxx"
-                           "\nxxxx-xxxx-xxxx-xxxx```")
+    async def glyphpost(self, ctx, *, codes=None):
+        usage = "```q!glyphpost \nxxxx-xxxx-xxxx-xxxx\nxxxx-xxxx-xxxx-xxxx```"
 
         def toLink(codes: list):
             final = []
@@ -20,38 +17,16 @@ class GlyphPost():
                 final.append(f"https://www.warframe.com/promocode?code={code}")
             return final
 
-        platforms = ["PC",
-                     "Xbox",
-                     "PS4"]
-
-        colours = {
-            "PC": "0xFF00FF",  # 0xFFFFFF
-            "Xbox": "0x46E300",
-            "PS4": "0x0062FF"
-        }
-
         if not codes:
-            await sendUsage(ctx)
+            await ctx.send(usage)
             return
 
-        # if platform not in platforms:
-        #     await ctx.send("Possible Platforms: " + " ,".join(platforms))
-        #     return
-
+        glyphs = Glyphs.fetchGlyphs()
         embed = discord.Embed(title=f"Glyphs"
         # f" for {platform}"
                                     f"")
 
-        if user.lower() != "none":
-            if not user.upper() in Glyphs.glyphs:
-                await ctx.send(content=f"Can't find the glyph `{user}`.")
-                return
-
-            url = Glyphs.glyphs[user.upper()]
-
-            embed.set_image(url=url)
-
-        embed.set_footer(text=("Glyphs are the only endgame, Orangutan#9393"))
+        embed.set_footer(text=(f"Glyphs are the only endgame, Orangutan#9393. Posted by {ctx.message.author}"))
 
         codes = re.findall(r"([A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4})", codes)
 
