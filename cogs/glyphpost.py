@@ -9,7 +9,7 @@ class GlyphPost():
 
     @commands.command(aliases=["gp"])
     async def glyphpost(self, ctx, *, codes=None):
-        usage = "```q!glyphpost \nxxxx-xxxx-xxxx-xxxx\nxxxx-xxxx-xxxx-xxxx```"
+        usage = "```o!glyphpost \nxxxx-xxxx-xxxx-xxxx\nxxxx-xxxx-xxxx-xxxx```"
 
         def toLink(codes: list):
             final = []
@@ -21,7 +21,7 @@ class GlyphPost():
             await ctx.send(usage)
             return
 
-        glyphs = Glyphs.fetchGlyphs()
+        # glyphs = Glyphs.fetchGlyphs()
         embed = discord.Embed(title=f"Glyphs"
         # f" for {platform}"
                                     f"")
