@@ -193,8 +193,8 @@ async def on_command_error(ctx, error):
                  commands.CheckFailure
                  ]
 
-    if type(error) not in blacklist:
-        sentryClient.captureException()
+    # if type(error) not in blacklist:
+    #     sentryClient.captureException()
         # try:
         #     print(f"{ctx.guild.name}, Owner: {str(ctx.guild.owner)}, "
         #           f"Author: {str(ctx.message.author)}, Command: {ctx.message.content}")
