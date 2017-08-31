@@ -6,6 +6,7 @@
   "bots_discord_pw": "",
   "imgurID": "",
   "imgurSecret": "",
+  "sentryDSN": "",
   "_modrolename": "",
   "_adminrolename": ""
 }

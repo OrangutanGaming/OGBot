@@ -10,6 +10,7 @@ try:
     token = settings["token"]
     ownerID = int(settings["ownerID"])
     prefixes = settings["prefix"]
+    sentryDSN = settings["sentryDSN"]
 except:
     print("Check your settings.json")
     exit()

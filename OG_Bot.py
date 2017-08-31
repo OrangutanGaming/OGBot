@@ -9,8 +9,9 @@ import cogs.utils.checks as checks
 import datetime
 import os
 from raven import Client
+from raven_aiohttp import AioHttpTransport
 
-sentryClient = Client('https://da21d24b05bb41228fd534f867d16fee:a7d8fa2ee3f04537bd021e505cc1385f@sentry.io/181224')
+sentryClient = Client(BotIDs.sentryDSN, transport=AioHttpTransport)
 
 # r.connect("localhost", 28015).repl()
 
