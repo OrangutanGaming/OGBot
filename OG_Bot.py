@@ -222,6 +222,6 @@ async def on_command_error(ctx, error):
         try: await ctx.channel.send(f"You do not have permission to use the command `{ctx.invoked_with}`.")
         except: return
     else:
-        sentryClient.captureException()
+        traceback.print_exception(tb=error.original.original.__traceback__, value=error.original, etype=None)
 
 bot.run(BotIDs.token)
