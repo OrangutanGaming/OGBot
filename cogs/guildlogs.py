@@ -25,38 +25,18 @@ class GuildLogs():
             server = guild
             embed = discord.Embed(title=f"Server Info for {server.name}", colour=0xffa500)
 
-            embed.set_image(url=server.icon_url)
             embed.set_footer(text=("Server created at " + server.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
 
             embed.add_field(name="ID", value=server.id)
-
-            def Roles(server):
-                counter = 0
-                for role in server.roles:
-                    if role.name == "@everyone":
-                        continue
-                    counter += 1
-                return str(counter)
-
-            def Bots(server):
-                count = 0
-                for member in server.members:
-                    if member.bot:
-                        count += 1
-                    else:
-                        continue
-
-                return str(count)
-
             embed.add_field(name="Role Count", value=str(len(server.roles) - 1))
             embed.add_field(name="Owner", value=f"{str(server.owner)} <@{server.owner.id}>")
             embed.add_field(name="Region", value=server.region)
             embed.add_field(name="Member Count", value=server.member_count)
-            embed.add_field(name="Bot Count", value=Bots(server))
+            botCount = str(len([member.name for member in server.members if member.bot]))
+            embed.add_field(name="Bot Count", value=botCount)
             embed.add_field(name="Text Channel Count", value=str(len(server.text_channels)))
             embed.add_field(name="Voice Channel Count", value=str(len(server.voice_channels)))
             embed.add_field(name="Total Channel Count", value=str(len(server.channels)))
-            embed.add_field(name="Default Channel", value=server.default_channel.name)
             if server.icon_url:
                 embed.set_image(url=server.icon_url)
                 embed.add_field(name="Avatar URL", value=server.icon_url)

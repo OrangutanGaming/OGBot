@@ -101,7 +101,6 @@ class Info():
 
         embed = discord.Embed(title=f"Server Info for {server.name}", colour=0xffa500)
 
-        embed.set_image(url=server.icon_url)
         embed.set_footer(text=("Server created at " + server.created_at.strftime("%A %d %B %Y, %H:%M:%S")))
 
         embed.add_field(name="ID", value=server.id)
@@ -109,12 +108,11 @@ class Info():
         embed.add_field(name="Owner", value=f"{str(server.owner)} <@{server.owner.id}>")
         embed.add_field(name="Region", value=server.region)
         embed.add_field(name="Member Count", value=server.member_count)
-        botCount = str(len([member.name for member in ctx.guild.members if member.bot]))
+        botCount = str(len([member.name for member in server.members if member.bot]))
         embed.add_field(name="Bot Count", value=botCount)
         embed.add_field(name="Text Channel Count", value=str(len(server.text_channels)))
         embed.add_field(name="Voice Channel Count", value=str(len(server.voice_channels)))
         embed.add_field(name="Total Channel Count", value=str(len(server.channels)))
-        embed.add_field(name="Default Channel", value="{0.mention} ({0.name})".format(server.default_channel))
         if server.icon_url:
             embed.set_image(url=server.icon_url)
             embed.add_field(name="Avatar URL", value=server.icon_url)
