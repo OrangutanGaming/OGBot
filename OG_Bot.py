@@ -15,7 +15,8 @@ sentryClient = Client(BotIDs.sentryDSN, transport=AioHttpTransport)
 
 # r.connect("localhost", 28015).repl()
 
-description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097441792)"
+description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097441792). " \
+              f"Discord Support link: https://discord.gg/duRB6Qg"
 
 prefixes = Prefixes.prefixes
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), description=description)
