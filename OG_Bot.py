@@ -223,6 +223,8 @@ async def on_command_error(ctx, error):
         try: await ctx.channel.send(f"You do not have permission to use the command `{ctx.invoked_with}`.")
         except: return
     else:
-        traceback.print_exception(tb=error.original.original.__traceback__, value=error.original, etype=None)
+        print(f"In {ctx.command.qualified_name}:", file=sys.stderr)
+        traceback.print_tb(error.__traceback__)
+        print(f"{error.__class__.__name__}: {error}", file=sys.stderr)
 
 bot.run(BotIDs.token)
