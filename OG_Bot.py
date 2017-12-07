@@ -10,6 +10,7 @@ import datetime
 import os
 from raven import Client
 from raven_aiohttp import AioHttpTransport
+import sys
 
 sentryClient = Client(BotIDs.sentryDSN, transport=AioHttpTransport)
 
@@ -211,8 +212,10 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.errors.CommandNotFound):
         try: await ctx.channel.send("`{}` is not a valid command".format(ctx.invoked_with))
         except: return
-    # elif isinstance(error, commands.errors.CommandInvokeError):
-    #     print(error)
+    elif isinstance(error, commands.errors.CommandInvokeError):
+        print(f"In {ctx.command.qualified_name}:", file=sys.stderr)
+        traceback.print_tb(error.original.__traceback__)
+        print(f"{error}", file=sys.stderr)
     elif isinstance(error, discord.Forbidden):
         try: await ctx.channel.send("I do not have permissions")
         except: return
