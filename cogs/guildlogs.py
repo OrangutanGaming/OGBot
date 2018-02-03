@@ -47,17 +47,6 @@ class GuildLogs():
         except:
             pass
 
-        # Send welcome message
-
-        try:
-            await guild.default_channel.send("Welcome to the world of Orangutans! "
-                                             "I was made by `{0}` Run `{1}help` for help".format(BotIDs.dev_name,
-                                                                                                 self.bot.prefixes[0]) +
-                                             "Don't forget to join the Discord server at https://discord.gg/duRB6Qg"
-                                             )
-        except discord.Forbidden:
-            pass
-
         # Update server count message
 
         channel = self.bot.get_channel(315428002034876416)
