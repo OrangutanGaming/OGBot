@@ -60,17 +60,11 @@ async def on_ready():
     print("Playing", gamename)
     print(BotIDs.URL)
     print("Prefixes: " + Prefixes.Prefix('"'))
-    bot.ready = True
 
 @bot.event
 async def on_message(message):
     if message.author.bot:
         return
-    if not bot.ready:
-        for prefix in prefixes:
-            if message.content.startswith(prefix):
-                await message.channel.send("I am still loading.")
-                return
     # if message.content.endswith == "":
     #     await message.channel.send("What?")
     #     return
