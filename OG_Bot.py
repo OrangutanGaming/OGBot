@@ -60,6 +60,7 @@ async def on_ready():
     print("Playing", gamename)
     print(BotIDs.URL)
     print("Prefixes: " + Prefixes.Prefix('"'))
+    print(datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S UTC"))
 
 @bot.event
 async def on_message(message):
