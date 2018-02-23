@@ -20,7 +20,7 @@ description = f"A bot built by Orangutan Gaming ({BotIDs.dev_name}, 150750980097
               f"Discord Support link: https://discord.gg/duRB6Qg"
 
 prefixes = Prefixes.prefixes
-bot = commands.Bot(command_prefix=commands.when_mentioned_or(*prefixes), description=description)
+bot = commands.AutoShardedBot(command_prefix=commands.when_mentioned_or(*prefixes), description=description)
 # bot.remove_command("help")
 bot.blank = "\u200B"
 bot.config = BotIDs.settings
