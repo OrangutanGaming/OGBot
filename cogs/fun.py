@@ -40,13 +40,17 @@ class Fun():
     @commands.command()
     async def ping(self, ctx):
         """Shows the response time."""
-        before = time.monotonic()
-        await (await self.bot.ws.ping())
-        after = time.monotonic()
-        pingT = (after - before) * 1000
-        pingT = round(pingT)
+        # before = time.monotonic()
+        # await (await self.bot.ws.ping())
+        # after = time.monotonic()
+        # pingT = (after - before) * 1000
+        # pingT = round(pingT)
+        #
+        # await ctx.send(self.bot.blank + "Pong. :ping_pong: **{}ms**".format(pingT))
 
-        await ctx.send(self.bot.blank + "Pong. :ping_pong: **{}ms**".format(pingT))
+        m = await ctx.send("Pong! :ping_pong:")
+        time = int((m.created_at - ctx.message.created_at).total_seconds() * 1000)
+        await m.edit(content=f"Pong! :ping_pong: **{time}ms**")
 
     @commands.command()
     async def charinfo(self, ctx, *, characters: str):
