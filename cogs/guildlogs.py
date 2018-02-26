@@ -54,7 +54,7 @@ class GuildLogs():
 
         embed = discord.Embed(description=f"Current server count of {self.bot.user.mention}")
         embed.add_field(name="Server Count", value=str(len(self.bot.guilds)))
-        embed.set_footer(text=("Server count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S")))
+        embed.set_footer(text=datetime.datetime.utcnow().strftime("Server count since %A %d %B %Y at %H:%M:%S UTC"))
 
         await message.edit(embed=embed)
 
@@ -65,8 +65,7 @@ class GuildLogs():
 
         embed = discord.Embed(description=f"Current user count of {self.bot.user.mention}")
         embed.add_field(name="User Count", value=str(len(self.bot.users)))
-        embed.set_footer(text=("User count since " + datetime.datetime.utcnow().strftime("%A %d %B %Y at %H:%M:%S"))
-                              + " UTC")
+        embed.set_footer(text=datetime.datetime.utcnow().strftime("User count since %A %d %B %Y at %H:%M:%S UTC"))
 
         await message.edit(embed=embed)
 
