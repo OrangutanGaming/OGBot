@@ -1,0 +1,38 @@
+{
+  "discord": {
+    "client_id": 0,
+    "token": "",
+    "prefixes": [
+      ""
+    ]
+  },
+  "stats": {
+    "discord_bot_list_token": "",
+    "bots_discord_pw_token": "",
+    "carbonitex_token": ""
+  },
+  "bot": {
+    "cogs": [
+      ""
+    ],
+    "datetime_format": ""
+  },
+  "bot_links": {
+    "support_location": "",
+    "source_code_location": "",
+    "invite_url": ""
+  },
+  "third_party_apis": {
+    "imgur": {
+      "imgur_id": "",
+      "imgur_secret": ""
+    },
+    "oxford_dictionaries": {
+      "oxford_app_id": "",
+      "oxford_app_key": ""
+    }
+  },
+  "logs": {
+    "sentry_dsn": ""
+  }
+}

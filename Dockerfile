@@ -7,6 +7,4 @@ RUN python3 -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite #
 
 WORKDIR /OG_Bot.py
 ADD ./settings.json /settings.json
-CMD ["python3", "OG_Bot.py"] # Run 'python3 "OG_Bot.py"'
-
-
+CMD ["python3", "OG_Bot.py"]

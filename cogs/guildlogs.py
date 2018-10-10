@@ -1,8 +1,8 @@
-from discord.ext import commands
-import discord
 import datetime
-import BotIDs
-import cogs.utils.checks as checks
+
+import discord
+from discord.ext import commands
+import ogbase.cogs.utils.checks as checks
 
 
 class GuildLogs():
@@ -100,7 +100,7 @@ class GuildLogs():
         await message.edit(embed=embed)
 
     @commands.command(hidden=True)
-    @checks.is_dev()
+    @checks.is_bot_owner()
     async def servercountsend(self, ctx):
         embed = discord.Embed(description=f"Current server count of {self.bot.user.mention}")
         embed.add_field(name="Server Count", value=str(len(self.bot.guilds)))
@@ -109,9 +109,6 @@ class GuildLogs():
         await self.bot.get_channel(315428002034876416).send(embed=embed)
         await ctx.send(":thumbsup:")
 
+
 def setup(bot):
     bot.add_cog(GuildLogs(bot))
-
-
-
-
