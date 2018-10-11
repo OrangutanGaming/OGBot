@@ -1,22 +1,6 @@
-*.log
+.idea/
 
-*.pyc
+__pycache__/
 
-/Rethinkdb/rethinkdb_data
-
-/Rethinkdb/rethinkdb.exe
-
-/rethinkdb.ink
-
-.idea
-
-__pycache__
-
-/cogs/utils/extension.py
-
-settings.json
-
-desc.txt
-
-client_secret.json
-useful.txt
+settings.prod.json
+settings.stag.json
