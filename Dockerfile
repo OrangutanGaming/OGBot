@@ -1,10 +1,12 @@
-FROM python:3.6.1
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y git
-RUN git clone https://github.com/OrangutanGaming/OG_Bot.py.git
-RUN pip install --upgrade -r requirements.txt # Install requirements.txt
-RUN python3 -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite # Install latest version of discord.py rewrite
+FROM gorialis/discord.py:3.6.6-alpine-rewrite-minimal
 
-WORKDIR /OG_Bot.py
-ADD ./settings.json /settings.json
-CMD ["python3", "OG_Bot.py"]
+WORKDIR /app
+
+RUN pip install -U git+https://github.com/Rapptz/discord.py/archive/rewrite.zip#egg=discord.py[voice].git git+https://github.com/cburgmer/upsidedown.git
+
+COPY requirements.txt ./
+RUN pip install -U -r requirements.txt
+
+COPY . .
+
+CMD ["python", "bot.py"]

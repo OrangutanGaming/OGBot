@@ -1,4 +1,4 @@
 import ogbase
 
-bot = ogbase.OGBase('settings.json')
+bot = ogbase.OGBase('ENVIRONMENT')
 bot.run()
